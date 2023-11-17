@@ -1,6 +1,8 @@
+let  = document.getElementById('container')
 let input = document.getElementById('input')
+let inputBx = document.getElementById('inputBx')
 let button = document.getElementById('btn')
-let result = document.getElementById('result')
+let list = document.getElementById('list')
 let total = document.getElementById('total')
 let count = 0
 
@@ -15,8 +17,7 @@ button.addEventListener('click', () => {
 
 function createDeleteButton(value) {
   console.log(value)
-
-
+  const div = document.createElement("div")
   const btn = document.createElement('button')
   const deleteButton = document.createElement('button')
   const li = document.createElement('li')
@@ -24,39 +25,45 @@ function createDeleteButton(value) {
   li.className = 'li'
   li.textContent = value
 
+  div.className = "containerBtn"
+
   btn.className = 'btn'
   btn.textContent = 'done'
-  li.append(btn)
+
 
   deleteButton.textContent = 'delete'
-  li.append(deleteButton)
+
 
   btn.addEventListener('click', () => {
     li.classList.toggle('done')
+    
   })
 
   deleteButton.addEventListener('click', () => {
-    result.removeChild(li)
+    list.removeChild(li)
     count--
     updateTotal()
   })
   count++
   updateTotal()
-  result.appendChild(li)
+  list.appendChild(li)
+  div.appendChild(btn)
+  div.appendChild(deleteButton)
+  li.append(div)
 }
 
 
-fetch('https://jsonplaceholder.typicode.com/todos')
-  .then(response => response.json())
-  .then(todos => {
-    todos.slice(0, 11).forEach(todo => {
-      createDeleteButton(todo.title)
-    });
-  })
+  fetch('https://jsonplaceholder.typicode.com/todos')
+    .then(response => response.json())
+    .then(todos => {
+      todos.slice(0, 11).forEach(todo => {
+        createDeleteButton(todo.title)
+      });
+    })
 
-function updateTotal() {
-  total.textContent = `${count}`
-}
+  function updateTotal() {
+    total.textContent = `${count}`
+  }
 
 
 
